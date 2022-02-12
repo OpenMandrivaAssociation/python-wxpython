@@ -1,5 +1,5 @@
-%define pkgname      wxpython4
-%define srcname      wxPython
+%define pkgname	wxpython4
+%define srcname	wxPython
 
 %bcond_with tests
 # Not yet fully ready, wxQt is missing the
@@ -7,56 +7,56 @@
 # constructor
 %bcond_with qt
 
-Name:           python-wxpython4
-Version:        4.1.1
-Release:        3
-Summary:        New implementation of wxPython, a GUI toolkit for Python
-License:        wxWidgets and BSD
-Group:          Development/Python
-URL:            https://www.wxpython.org/
-Source0:        https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-%{version}.tar.gz
-Patch0:         sip5.patch
+Name:		python-wxpython4
+Version:	4.1.1
+Release:	4
+Summary:	New implementation of wxPython, a GUI toolkit for Python
+License:	wxWidgets and BSD
+Group:		Development/Python
+URL:		https://www.wxpython.org/
+Source0:	https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-%{version}.tar.gz
+Patch0:		sip5.patch
 Patch1:		sip6.patch
 Patch2:		wxPython-4.1.1-doxygen-1.9.patch
 #Patch3:		unbundle-sip.patch
 Patch4:		wxPython-4.1.1-qt.patch
 
-BuildRequires:  doxygen
-BuildRequires:  waf
+BuildRequires:	doxygen
+BuildRequires:	waf
 %if %{with qt}
 BuildRequires:	wxqt3.1-devel
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Widgets)
 %else
-BuildRequires:  wxgtk3.1-devel
+BuildRequires:	wxgtk3.1-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
 %{?python_provide:%python_provide python-%{pkgname}}
-BuildRequires:  pkgconfig(python)
-BuildRequires:  python-numpy-devel
+BuildRequires:	pkgconfig(python)
+BuildRequires:	python3dist(numpy)
 # Available in unsupported, so disable for now.
-#BuildRequires:  python3dist(pathlib2)
-BuildRequires:  python3dist(pillow)
-BuildRequires:  python3dist(setuptools)
-BuildRequires:  python3dist(six)
-BuildRequires:  python3dist(sip)
-Requires:       python3dist(pillow)
-Requires:       python3dist(six)
+#BuildRequires:	python3dist(pathlib2)
+BuildRequires:	python3dist(pillow)
+BuildRequires:	python3dist(setuptools)
+BuildRequires:	python3dist(six)
+BuildRequires:	python3dist(sip)
+Requires:		python3dist(pillow)
+Requires:		python3dist(six)
 
 # For tests
 %if %{with tests}
-BuildRequires:  locales-en
-BuildRequires:  x11-server-xvfb
-BuildRequires:  python3dist(numpy)
+BuildRequires:	locales-en
+BuildRequires:	x11-server-xvfb
+BuildRequires:	python3dist(numpy)
 # Available in Cooker but in unsupported repo. Disable for now.
-#BuildRequires:  python3dist(pypdf2)
-BuildRequires:  python3dist(pytest)
+#BuildRequires:	python3dist(pypdf2)
+BuildRequires:	python3dist(pytest)
 # Not imported yet
-#BuildRequires:  python-pytest-timeout
-#BuildRequires:  python-pytest-xdist
-#BuildRequires:  python-wx-siplib
+#BuildRequires:	python-pytest-timeout
+#BuildRequires:	python-pytest-xdist
+#BuildRequires:	python-wx-siplib
 %endif
 
 %description
@@ -77,11 +77,11 @@ specific code.
 
 #---------------------------------------------------------------------------
 
-%package -n     python-%{pkgname}-media
-Summary:        New implementation of wxPython, a GUI toolkit for Python3 (media module)
-Group:          Development/Python
+%package -n python-%{pkgname}-media
+Summary:	New implementation of wxPython, a GUI toolkit for Python3 (media module)
+Group:		Development/Python
 %{?python_provide:%python_provide python-%{pkgname}-media}
-Requires:       python-%{pkgname} = %{version}-%{release}
+Requires:	python-%{pkgname} = %{version}-%{release}
 
 %description -n python-%{pkgname}-media
 wxPython4 is a is a new implementation of wxPython focused on improving speed,
@@ -99,11 +99,11 @@ This package provides the wx.media module.
 
 #---------------------------------------------------------------------------
 
-%package -n     python-%{pkgname}-webview
-Summary:        New implementation of wxPython, a GUI toolkit for Python3 (webview module)
-Group:          Development/Python
+%package -n python-%{pkgname}-webview
+Summary:	New implementation of wxPython, a GUI toolkit for Python3 (webview module)
+Group:		Development/Python
 %{?python_provide:%python_provide python-%{pkgname}-webview}
-Requires:       python-%{pkgname} = %{version}-%{release}
+Requires:	python-%{pkgname} = %{version}-%{release}
 
 %description -n python-%{pkgname}-webview
 wxPython4 is a is a new implementation of wxPython focused on improving speed,
@@ -121,10 +121,10 @@ This package provides the wx.html2 module.
 
 #---------------------------------------------------------------------------
 
-%package        doc
-Summary:        Documentation and samples for wxPython
-Group:          Development/Python
-BuildArch:      noarch
+%package doc
+Summary:	Documentation and samples for wxPython
+Group:		Development/Python
+BuildArch:	noarch
 
 %description doc
 Documentation, samples and demo application for wxPython.
@@ -168,13 +168,13 @@ find demo -size 0 -delete
 find docs/sphinx/rest_substitutions/snippets/python/converted -size 0 -delete
 # Convert files to UTF-8
 for file in demo/TestTable.txt docs/sphinx/_downloads/i18nwxapp/locale/I18Nwxapp.pot docs/sphinx/class_summary.pkl docs/sphinx/wx.1moduleindex.pkl; do
-    iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
-    touch -r $file $file.new && \
-    mv $file.new $file
+	iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
+	touch -r $file $file.new && \
+	mv $file.new $file
 done
 
 %build
-#Generate sip module code to replace bundled version            
+#Generate sip module code to replace bundled version 
 sip-module --abi-version 12.9 --sdist wx.siplib
 tar -xf wx_siplib-12.9.0.tar.gz
 mv wx_siplib-12.9.0 sip/siplib
