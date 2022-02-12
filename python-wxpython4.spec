@@ -9,7 +9,7 @@
 
 Name:           python-wxpython4
 Version:        4.1.1
-Release:        2
+Release:        3
 Summary:        New implementation of wxPython, a GUI toolkit for Python
 License:        wxWidgets and BSD
 Group:          Development/Python
@@ -66,7 +66,16 @@ wxWidgets C++ toolkit and provides access to the user interface portions of the
 wx API, enabling Python applications to have a GUI on Windows, Macs or Unix
 systems with a native look and feel and requiring very little (if any) platform
 specific code.
-#----------------------------------------------
+
+%files
+%license license/*
+%{python_sitearch}/*
+%exclude %{python3_sitearch}/wx/*html2*
+%exclude %{python3_sitearch}/wx/__pycache__/*html2*
+%exclude %{python3_sitearch}/wx/*media*
+%exclude %{python3_sitearch}/wx/__pycache__/*media*
+
+#---------------------------------------------------------------------------
 
 %package -n     python-%{pkgname}-media
 Summary:        New implementation of wxPython, a GUI toolkit for Python3 (media module)
@@ -84,6 +93,12 @@ specific code.
 
 This package provides the wx.media module.
 
+%files -n python-%{pkgname}-media
+%{python_sitearch}/wx/*media*
+%{python_sitearch}/wx/__pycache__/*media*
+
+#---------------------------------------------------------------------------
+
 %package -n     python-%{pkgname}-webview
 Summary:        New implementation of wxPython, a GUI toolkit for Python3 (webview module)
 Group:          Development/Python
@@ -100,6 +115,12 @@ specific code.
 
 This package provides the wx.html2 module.
 
+%files -n python-%{pkgname}-webview
+%{python_sitearch}/wx/*html2*
+%{python_sitearch}/wx/__pycache__/*html2*
+
+#---------------------------------------------------------------------------
+
 %package        doc
 Summary:        Documentation and samples for wxPython
 Group:          Development/Python
@@ -107,6 +128,10 @@ BuildArch:      noarch
 
 %description doc
 Documentation, samples and demo application for wxPython.
+
+%files doc
+%doc docs demo samples
+%license license/*
 
 #----------------------------------------------
 
@@ -150,9 +175,9 @@ done
 
 %build
 #Generate sip module code to replace bundled version            
-sip-module --abi-version 12.8 --sdist wx.siplib            
-tar -xf wx_siplib-12.8.1.tar.gz            
-mv wx_siplib-12.8.1 sip/siplib            
+sip-module --abi-version 12.9 --sdist wx.siplib
+tar -xf wx_siplib-12.9.0.tar.gz
+mv wx_siplib-12.9.0 sip/siplib
 cp -p /usr/share/common-licenses/GPLv2 sip/siplib/LICENSE
 
 # disable docs for now since doxygen 1.9.0 build issue
@@ -177,23 +202,3 @@ SKIP_TESTS="'not (display_Tests or glcanvas_Tests or mousemanager_Tests or numdl
 ln -sf %{python3_sitearch}/wx/siplib.so wx/siplib.so
 xvfb-run -a %{__python3} build.py test --pytest_timeout=60 --extra_pytest="-k $SKIP_TESTS" --verbose || true
 %endif
-
-%files
-%license license/*
-%{python_sitearch}/*
-%exclude %{python3_sitearch}/wx/*html2*
-%exclude %{python3_sitearch}/wx/__pycache__/*html2*
-%exclude %{python3_sitearch}/wx/*media*
-%exclude %{python3_sitearch}/wx/__pycache__/*media*
-
-%files -n python-%{pkgname}-media
-%{python_sitearch}/wx/*media*
-%{python_sitearch}/wx/__pycache__/*media*
-
-%files -n python-%{pkgname}-webview
-%{python_sitearch}/wx/*html2*
-%{python_sitearch}/wx/__pycache__/*html2*
-
-%files doc
-%doc docs demo samples
-%license license/*
