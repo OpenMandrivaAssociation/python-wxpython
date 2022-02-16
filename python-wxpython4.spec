@@ -20,6 +20,7 @@ Patch1:		sip6.patch
 Patch2:		wxPython-4.1.1-doxygen-1.9.patch
 #Patch3:		unbundle-sip.patch
 Patch4:		wxPython-4.1.1-qt.patch
+Patch5:		fix-build.patch
 
 BuildRequires:	doxygen
 BuildRequires:	waf
