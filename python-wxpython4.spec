@@ -43,6 +43,7 @@ BuildRequires:	python3dist(pillow)
 BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3dist(six)
 #BuildRequires:	python3dist(sip)
+BuildRequires:	python3dist(requests)
 Requires:		python3dist(pillow)
 Requires:		python3dist(six)
 
