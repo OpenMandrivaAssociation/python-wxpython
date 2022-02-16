@@ -9,7 +9,7 @@
 
 Name:		python-wxpython4
 Version:	4.1.1
-Release:	4
+Release:	5
 Summary:	New implementation of wxPython, a GUI toolkit for Python
 License:	wxWidgets and BSD
 Group:		Development/Python
@@ -138,19 +138,19 @@ Documentation, samples and demo application for wxPython.
 %prep
 %autosetup -n %{srcname}-%{version} -p1
 
-rm -rf sip/siplib
-rm -rf wx/py/tests
-rm -f docs/sphinx/_downloads/i18nwxapp/i18nwxapp.zip
-cp -a wx/lib/pubsub/LICENSE_BSD_Simple.txt license
+#rm -rf sip/siplib
+#rm -rf wx/py/tests
+#rm -f docs/sphinx/_downloads/i18nwxapp/i18nwxapp.zip
+#cp -a wx/lib/pubsub/LICENSE_BSD_Simple.txt license
 # Remove env shebangs from various files
-sed -i -e '/^#!\//, 1d' demo/*.py{,w}
-sed -i -e '/^#!\//, 1d' demo/agw/*.py
-sed -i -e '/^#!\//, 1d' docs/sphinx/_downloads/i18nwxapp/*.py
-sed -i -e '/^#!\//, 1d' samples/floatcanvas/*.py
-sed -i -e '/^#!\//, 1d' samples/mainloop/*.py
-sed -i -e '/^#!\//, 1d' samples/ribbon/*.py
-sed -i -e '/^#!\//, 1d' wx/py/*.py
-sed -i -e '/^#!\//, 1d' wx/tools/*.py
+#sed -i -e '/^#!\//, 1d' demo/*.py{,w}
+#sed -i -e '/^#!\//, 1d' demo/agw/*.py
+#sed -i -e '/^#!\//, 1d' docs/sphinx/_downloads/i18nwxapp/*.py
+#sed -i -e '/^#!\//, 1d' samples/floatcanvas/*.py
+#sed -i -e '/^#!\//, 1d' samples/mainloop/*.py
+#sed -i -e '/^#!\//, 1d' samples/ribbon/*.py
+#sed -i -e '/^#!\//, 1d' wx/py/*.py
+#sed -i -e '/^#!\//, 1d' wx/tools/*.py
 # Fix end of line encodings
 sed -i 's/\r$//' docs/sphinx/_downloads/*.py
 sed -i 's/\r$//' docs/sphinx/rest_substitutions/snippets/python/contrib/*.py
@@ -175,10 +175,10 @@ done
 
 %build
 #Generate sip module code to replace bundled version 
-sip-module --abi-version 12.9 --sdist wx.siplib
-tar -xf wx_siplib-12.9.0.tar.gz
-mv wx_siplib-12.9.0 sip/siplib
-cp -p /usr/share/common-licenses/GPLv2 sip/siplib/LICENSE
+#sip-module --abi-version 12.9 --sdist wx.siplib
+#tar -xf wx_siplib-12.9.0.tar.gz
+#mv wx_siplib-12.9.0 sip/siplib
+#cp -p /usr/share/common-licenses/GPLv2 sip/siplib/LICENSE
 
 # disable docs for now since doxygen 1.9.0 build issue
 # to re-enable: do "dox touch etg"
