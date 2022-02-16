@@ -15,8 +15,8 @@ License:	wxWidgets and BSD
 Group:		Development/Python
 URL:		https://www.wxpython.org/
 Source0:	https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-%{version}.tar.gz
-Patch0:		sip5.patch
-Patch1:		sip6.patch
+#Patch0:		sip5.patch
+#Patch1:		sip6.patch
 Patch2:		wxPython-4.1.1-doxygen-1.9.patch
 #Patch3:		unbundle-sip.patch
 Patch4:		wxPython-4.1.1-qt.patch
@@ -42,7 +42,7 @@ BuildRequires:	python3dist(numpy)
 BuildRequires:	python3dist(pillow)
 BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3dist(six)
-BuildRequires:	python3dist(sip)
+#BuildRequires:	python3dist(sip)
 Requires:		python3dist(pillow)
 Requires:		python3dist(six)
 
@@ -187,7 +187,7 @@ done
 DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
 %{__python3} -u build.py touch dox etg --nodoc sip build_py --use_syswx --qt
 %else
-DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
+#DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
 %{__python3} -u build.py touch dox etg --nodoc sip build_py --use_syswx --gtk3
 %endif
 
