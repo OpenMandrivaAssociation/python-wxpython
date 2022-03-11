@@ -9,7 +9,7 @@
 
 Name:		python-wxpython4
 Version:	4.1.1
-Release:	5
+Release:	6
 Summary:	New implementation of wxPython, a GUI toolkit for Python
 License:	wxWidgets and BSD
 Group:		Development/Python
