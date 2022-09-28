@@ -19,6 +19,7 @@ Source0:	https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-
 #Patch3:		unbundle-sip.patch
 Patch5:		fix-build.patch
 
+BuildRequires:	locales-extra-charsets
 BuildRequires:	doxygen
 BuildRequires:	waf
 %if %{with qt}
