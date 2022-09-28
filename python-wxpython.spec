@@ -1,4 +1,3 @@
-%define pkgname	wxpython4
 %define srcname	wxPython
 
 %bcond_with tests
@@ -7,46 +6,44 @@
 # constructor
 %bcond_with qt
 
-Name:		python-wxpython4
-Version:	4.1.1
-Release:	6
-Summary:	New implementation of wxPython, a GUI toolkit for Python
+Name:		python-wxpython
+Version:	4.2.0
+Release:	1
+Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
 URL:		https://www.wxpython.org/
 Source0:	https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-%{version}.tar.gz
 #Patch0:		sip5.patch
 #Patch1:		sip6.patch
-Patch2:		wxPython-4.1.1-doxygen-1.9.patch
 #Patch3:		unbundle-sip.patch
-Patch4:		wxPython-4.1.1-qt.patch
 Patch5:		fix-build.patch
-Patch6:		wxPython-4.1.1-fix-overrides.patch
 
 BuildRequires:	doxygen
 BuildRequires:	waf
 %if %{with qt}
-BuildRequires:	wxqt3.1-devel
+BuildRequires:	wxqt3.2-devel
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Widgets)
 %else
-BuildRequires:	wxgtk3.1-devel
+BuildRequires:	wxgtk3.2-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
-%{?python_provide:%python_provide python-%{pkgname}}
-BuildRequires:	pkgconfig(python)
-BuildRequires:	python3dist(numpy)
+%{?python_provide:%python_provide python-wxpython4}
+BuildRequires:	pkgconfig(python3)
+BuildRequires:	python%{pyver}dist(attrdict)
+BuildRequires:	python%{pyver}dist(numpy)
 # Available in unsupported, so disable for now.
-#BuildRequires:	python3dist(pathlib2)
-BuildRequires:	python3dist(pillow)
-BuildRequires:	python3dist(setuptools)
-BuildRequires:	python3dist(six)
-#BuildRequires:	python3dist(sip)
-BuildRequires:	python3dist(requests)
-Requires:		python3dist(pillow)
-Requires:		python3dist(six)
+#BuildRequires:	python%{pyver}dist(pathlib2)
+BuildRequires:	python%{pyver}dist(pillow)
+BuildRequires:	python%{pyver}dist(setuptools)
+BuildRequires:	python%{pyver}dist(six)
+#BuildRequires:	python%{pyver}dist(sip)
+BuildRequires:	python%{pyver}dist(requests)
+Requires:		python%{pyver}dist(pillow)
+Requires:		python%{pyver}dist(six)
 
 # For tests
 %if %{with tests}
@@ -62,65 +59,59 @@ BuildRequires:	python3dist(pytest)
 #BuildRequires:	python-wx-siplib
 %endif
 
+%rename python-wxpython4
+
 %description
-wxPython4 is a is a new implementation of wxPython focused on improving speed,
-maintainability and extensibility. Just like "Classic" wxPython it wraps the
-wxWidgets C++ toolkit and provides access to the user interface portions of the
-wx API, enabling Python applications to have a GUI on Windows, Macs or Unix
-systems with a native look and feel and requiring very little (if any) platform
-specific code.
+wxPython wraps the wxWidgets C++ toolkit and provides access to the user
+interface portions of the wx API, enabling Python applications to have a
+GUI on Windows, Macs or Unix systems with a native look and feel and
+requiring very little (if any) platform specific code.
 
 %files
 %license license/*
 %{python_sitearch}/*
 %exclude %{python3_sitearch}/wx/*html2*
-%exclude %{python3_sitearch}/wx/__pycache__/*html2*
 %exclude %{python3_sitearch}/wx/*media*
-%exclude %{python3_sitearch}/wx/__pycache__/*media*
 
 #---------------------------------------------------------------------------
 
-%package -n python-%{pkgname}-media
+%package media
 Summary:	New implementation of wxPython, a GUI toolkit for Python3 (media module)
 Group:		Development/Python
-%{?python_provide:%python_provide python-%{pkgname}-media}
-Requires:	python-%{pkgname} = %{version}-%{release}
+%{?python_provide:%python_provide python-wxpython4-media}
+Requires:	%{name} = %{EVRD}
+%rename python-wxpython4-media
 
-%description -n python-%{pkgname}-media
-wxPython4 is a is a new implementation of wxPython focused on improving speed,
-maintainability and extensibility. Just like "Classic" wxPython it wraps the
-wxWidgets C++ toolkit and provides access to the user interface portions of the
-wx API, enabling Python applications to have a GUI on Windows, Macs or Unix
-systems with a native look and feel and requiring very little (if any) platform
-specific code.
+%description media
+wxPython wraps the wxWidgets C++ toolkit and provides access to the user
+interface portions of the wx API, enabling Python applications to have a
+GUI on Windows, Macs or Unix systems with a native look and feel and
+requiring very little (if any) platform specific code.
 
 This package provides the wx.media module.
 
-%files -n python-%{pkgname}-media
+%files media
 %{python_sitearch}/wx/*media*
-%{python_sitearch}/wx/__pycache__/*media*
 
 #---------------------------------------------------------------------------
 
-%package -n python-%{pkgname}-webview
+%package webview
 Summary:	New implementation of wxPython, a GUI toolkit for Python3 (webview module)
 Group:		Development/Python
-%{?python_provide:%python_provide python-%{pkgname}-webview}
-Requires:	python-%{pkgname} = %{version}-%{release}
+%{?python_provide:%python_provide python-wxpython4-webview}
+Requires:	python-%{pkgname} = %{EVRD}
+%rename python-wxpython4-webview
 
-%description -n python-%{pkgname}-webview
-wxPython4 is a is a new implementation of wxPython focused on improving speed,
-maintainability and extensibility. Just like "Classic" wxPython it wraps the
-wxWidgets C++ toolkit and provides access to the user interface portions of the
-wx API, enabling Python applications to have a GUI on Windows, Macs or Unix
-systems with a native look and feel and requiring very little (if any) platform
-specific code.
+%description webview
+wxPython wraps the wxWidgets C++ toolkit and provides access to the user
+interface portions of the wx API, enabling Python applications to have a
+GUI on Windows, Macs or Unix systems with a native look and feel and
+requiring very little (if any) platform specific code.
 
 This package provides the wx.html2 module.
 
-%files -n python-%{pkgname}-webview
+%files webview
 %{python_sitearch}/wx/*html2*
-%{python_sitearch}/wx/__pycache__/*html2*
 
 #---------------------------------------------------------------------------
 
