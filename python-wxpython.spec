@@ -100,7 +100,7 @@ This package provides the wx.media module.
 Summary:	New implementation of wxPython, a GUI toolkit for Python3 (webview module)
 Group:		Development/Python
 %{?python_provide:%python_provide python-wxpython4-webview}
-Requires:	python-%{pkgname} = %{EVRD}
+Requires:	%{name} = %{EVRD}
 %rename python-wxpython4-webview
 
 %description webview
