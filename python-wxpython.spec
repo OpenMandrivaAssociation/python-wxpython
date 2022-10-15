@@ -181,7 +181,7 @@ done
 DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
 %{__python3} -u build.py touch dox etg --nodoc sip build_py --use_syswx --qt
 %else
-#DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
+DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
 %{__python3} -u build.py touch dox etg --nodoc build_py --use_syswx --gtk3
 %endif
 
