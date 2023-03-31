@@ -8,7 +8,7 @@
 
 Name:		python-wxpython
 Version:	4.2.0
-Release:	1
+Release:	2
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
