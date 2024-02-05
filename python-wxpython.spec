@@ -1,23 +1,29 @@
-%define srcname	wxPython
-
 %bcond_with tests
+
+# disable docs for now since doxygen 1.9.0 build issue
+%bcond_without dox
+
 # Not yet fully ready, wxQt is missing the
 # wxPen::wxPen(const wxPenInfo&)
 # constructor
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.2.0
-Release:	2
+Version:	4.2.1
+Release:	1
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
 URL:		https://www.wxpython.org/
-Source0:	https://files.pythonhosted.org/packages/source/w/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/w/wxPython/wxPython-%{version}.tar.gz
 #Patch0:		sip5.patch
 #Patch1:		sip6.patch
 #Patch3:		unbundle-sip.patch
 Patch5:		fix-build.patch
+# (debian)
+Patch10:	fix-ftbfs-doxygen-197.patch
+# (upstream) fix compatibility with Cython 3.0.0
+Patch100:	https://github.com/wxWidgets/Phoenix/commit/aeb557d01e7cd37176ebbf0f1ae6d0b53c115378.patch
 
 BuildRequires:	locales-extra-charsets
 BuildRequires:	doxygen
@@ -33,7 +39,7 @@ BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
 %{?python_provide:%python_provide python-wxpython4}
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	python%{pyver}dist(attrdict)
 BuildRequires:	python%{pyver}dist(numpy)
 # Available in unsupported, so disable for now.
@@ -50,10 +56,10 @@ Requires:		python%{pyver}dist(six)
 %if %{with tests}
 BuildRequires:	locales-en
 BuildRequires:	x11-server-xvfb
-BuildRequires:	python3dist(numpy)
+BuildRequires:	python%{pyver}dist(numpy)
 # Available in Cooker but in unsupported repo. Disable for now.
-#BuildRequires:	python3dist(pypdf2)
-BuildRequires:	python3dist(pytest)
+#BuildRequires:	python%{pyver}dist(pypdf2)
+BuildRequires:	python%{pyver}dist(pytest)
 # Not imported yet
 #BuildRequires:	python-pytest-timeout
 #BuildRequires:	python-pytest-xdist
@@ -71,13 +77,13 @@ requiring very little (if any) platform specific code.
 %files
 %license license/*
 %{python_sitearch}/*
-%exclude %{python3_sitearch}/wx/*html2*
-%exclude %{python3_sitearch}/wx/*media*
+%exclude %{python_sitearch}/wx/*html2*
+%exclude %{python_sitearch}/wx/*media*
 
 #---------------------------------------------------------------------------
 
 %package media
-Summary:	New implementation of wxPython, a GUI toolkit for Python3 (media module)
+Summary:	New implementation of wxPython, a GUI toolkit for Python (media module)
 Group:		Development/Python
 %{?python_provide:%python_provide python-wxpython4-media}
 Requires:	%{name} = %{EVRD}
@@ -97,7 +103,7 @@ This package provides the wx.media module.
 #---------------------------------------------------------------------------
 
 %package webview
-Summary:	New implementation of wxPython, a GUI toolkit for Python3 (webview module)
+Summary:	New implementation of wxPython, a GUI toolkit for Python (webview module)
 Group:		Development/Python
 %{?python_provide:%python_provide python-wxpython4-webview}
 Requires:	%{name} = %{EVRD}
@@ -131,7 +137,7 @@ Documentation, samples and demo application for wxPython.
 #----------------------------------------------
 
 %prep
-%autosetup -n %{srcname}-%{version} -p1
+%autosetup -p1 -n wxPython-%{version}
 
 #rm -rf sip/siplib
 #rm -rf wx/py/tests
@@ -170,30 +176,24 @@ done
 
 %build
 #Generate sip module code to replace bundled version 
-#sip-module --abi-version 12.9 --sdist wx.siplib
-#tar -xf wx_siplib-12.9.0.tar.gz
-#mv wx_siplib-12.9.0 sip/siplib
+#sip-module --abi-version 12.14 --sdist wx.siplib
+#tar -xf wx_siplib-12.14.0.tar.gz
+#mv wx_siplib-12.14.0 sip/siplib
 #cp -p /usr/share/common-licenses/GPLv2 sip/siplib/LICENSE
-
-# disable docs for now since doxygen 1.9.0 build issue
-# to re-enable: do "dox touch etg"
-%if %{with qt}
-DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
-%{__python3} -u build.py touch dox etg --nodoc sip build_py --use_syswx --qt
-%else
-DOXYGEN=%{_bindir}/doxygen SIP=%{_bindir}/sip WAF=%{_bindir}/waf \
-%{__python3} -u build.py touch dox etg --nodoc build_py --use_syswx --gtk3
-%endif
+#SIP=%{_bindir}/sip --nodoc sip
+DOXYGEN=%{_bindir}/doxygen WAF=%{_bindir}/waf \
+%{__python} -u build.py %{?with_dox:dox touch etg} build_py --use_syswx %{?with_qt:--qt}%{?!with_qt:--gtk3}
 
 %install
-%{__python3} build.py install_py --destdir=%{buildroot}
+%py_install
+#{__python} build.py install_py --destdir=%{buildroot}
 rm -f %{buildroot}%{_bindir}/*
 # Remove locale files (they are provided by wxWidgets)
-rm -rf %{buildroot}%{python3_sitearch}/wx/locale
+rm -rf %{buildroot}%{python_sitearch}/wx/locale
 
 %check
 %if %{with tests}
 SKIP_TESTS="'not (display_Tests or glcanvas_Tests or mousemanager_Tests or numdlg_Tests or uiaction_MouseTests or uiaction_KeyboardTests or unichar_Tests or valtext_Tests or test_frameRestore or test_grid_pi)'"
-ln -sf %{python3_sitearch}/wx/siplib.so wx/siplib.so
-xvfb-run -a %{__python3} build.py test --pytest_timeout=60 --extra_pytest="-k $SKIP_TESTS" --verbose || true
+ln -sf %{python_sitearch}/wx/siplib.so wx/siplib.so
+xvfb-run -a %{__python} build.py test --pytest_timeout=60 --extra_pytest="-k $SKIP_TESTS" --verbose || true
 %endif
