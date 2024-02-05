@@ -1,7 +1,7 @@
 %bcond_with tests
 
 # disable docs for now since doxygen 1.9.0 build issue
-%bcond_without dox
+%bcond_with dox
 
 # Not yet fully ready, wxQt is missing the
 # wxPen::wxPen(const wxPenInfo&)
