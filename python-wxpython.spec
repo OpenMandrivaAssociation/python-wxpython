@@ -9,7 +9,7 @@
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.2.1
+Version:	4.2.2
 Release:	1
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
@@ -21,9 +21,9 @@ Source0:	https://files.pythonhosted.org/packages/source/w/wxPython/wxPython-%{ve
 #Patch3:		unbundle-sip.patch
 Patch5:		fix-build.patch
 # (debian)
-Patch10:	fix-ftbfs-doxygen-197.patch
+#Patch10:	fix-ftbfs-doxygen-197.patch
 # (upstream) fix compatibility with Cython 3.0.0
-Patch100:	https://github.com/wxWidgets/Phoenix/commit/aeb557d01e7cd37176ebbf0f1ae6d0b53c115378.patch
+#Patch100:	https://github.com/wxWidgets/Phoenix/commit/aeb557d01e7cd37176ebbf0f1ae6d0b53c115378.patch
 
 BuildRequires:	locales-extra-charsets
 BuildRequires:	doxygen
@@ -168,7 +168,7 @@ chmod -x samples/printing/sample-text.txt
 find demo -size 0 -delete
 find docs/sphinx/rest_substitutions/snippets/python/converted -size 0 -delete
 # Convert files to UTF-8
-for file in demo/TestTable.txt docs/sphinx/_downloads/i18nwxapp/locale/I18Nwxapp.pot docs/sphinx/class_summary.pkl docs/sphinx/wx.1moduleindex.pkl; do
+for file in demo/TestTable.txt docs/sphinx/_downloads/i18nwxapp/locale/I18Nwxapp.pot docs/sphinx/class_summary.pkl; do
 	iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
 	touch -r $file $file.new && \
 	mv $file.new $file
