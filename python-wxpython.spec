@@ -167,12 +167,6 @@ chmod -x samples/printing/sample-text.txt
 # Remove empty files
 find demo -size 0 -delete
 find docs/sphinx/rest_substitutions/snippets/python/converted -size 0 -delete
-# Convert files to UTF-8
-for file in demo/TestTable.txt docs/sphinx/_downloads/i18nwxapp/locale/I18Nwxapp.pot docs/sphinx/class_summary.pkl; do
-	iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
-	touch -r $file $file.new && \
-	mv $file.new $file
-done
 
 %build
 #Generate sip module code to replace bundled version 
