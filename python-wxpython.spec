@@ -9,7 +9,7 @@
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.2.2
+Version:	4.2.3
 Release:	1
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
@@ -158,7 +158,6 @@ sed -i 's/\r$//' docs/sphinx/rest_substitutions/snippets/python/contrib/*.py
 sed -i 's/\r$//' docs/sphinx/rest_substitutions/snippets/python/converted/*.py
 sed -i 's/\r$//' docs/sphinx/_downloads/i18nwxapp/locale/I18Nwxapp.pot
 sed -i 's/\r$//' docs/sphinx/make.bat
-sed -i 's/\r$//' docs/sphinx/phoenix_theme/theme.conf
 sed -i 's/\r$//' samples/floatcanvas/BouncingBall.py
 # Remove spurious executable perms
 chmod -x demo/*.py
