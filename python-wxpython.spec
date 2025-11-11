@@ -9,13 +9,13 @@
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.2.3
+Version:	4.2.4
 Release:	1
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
 URL:		https://www.wxpython.org/
-Source0:	https://files.pythonhosted.org/packages/source/w/wxPython/wxPython-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/w/wxPython/wxpython-%{version}.tar.gz
 #Patch0:		sip5.patch
 #Patch1:		sip6.patch
 #Patch3:		unbundle-sip.patch
@@ -41,6 +41,7 @@ BuildRequires:	pkgconfig(gtk+-3.0)
 %{?python_provide:%python_provide python-wxpython4}
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python%{pyver}dist(attrdict)
+BuildRequires:	python%{pyver}dist(cython)
 BuildRequires:	python%{pyver}dist(numpy)
 # Available in unsupported, so disable for now.
 #BuildRequires:	python%{pyver}dist(pathlib2)
