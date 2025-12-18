@@ -10,7 +10,7 @@
 
 Name:		python-wxpython
 Version:	4.2.4
-Release:	1
+Release:	2
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
@@ -30,9 +30,9 @@ BuildRequires:	doxygen
 BuildRequires:	waf
 %if %{with qt}
 BuildRequires:	wxqt3.2-devel
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5Widgets)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+BuildRequires:	pkgconfig(Qt6Widgets)
 %else
 BuildRequires:	wxgtk3.2-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
