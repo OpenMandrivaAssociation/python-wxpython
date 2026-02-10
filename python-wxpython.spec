@@ -9,8 +9,8 @@
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.2.4
-Release:	2
+Version:	4.2.5
+Release:	1
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
@@ -138,7 +138,7 @@ Documentation, samples and demo application for wxPython.
 #----------------------------------------------
 
 %prep
-%autosetup -p1 -n wxPython-%{version}
+%autosetup -p1 -n wxpython-%{version}
 
 #rm -rf sip/siplib
 #rm -rf wx/py/tests
