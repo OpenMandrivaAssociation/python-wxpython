@@ -9,8 +9,8 @@
 %bcond_with qt
 
 Name:		python-wxpython
-Version:	4.3.1
-Release:	1
+Version:	4.2.5
+Release:	2
 Summary:	Python wrapper around wxWidgets
 License:	wxWidgets and BSD
 Group:		Development/Python
@@ -39,7 +39,7 @@ BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
 %{?python_provide:%python_provide python-wxpython4}
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(attrdict)
 BuildRequires:	python%{pyver}dist(cython)
 BuildRequires:	python%{pyver}dist(numpy)
@@ -138,7 +138,7 @@ Documentation, samples and demo application for wxPython.
 #----------------------------------------------
 
 %prep
-%autosetup -p1 -n wxpython-4.3.1
+%autosetup -p1 -n wxpython-%{version}
 
 #rm -rf sip/siplib
 #rm -rf wx/py/tests
